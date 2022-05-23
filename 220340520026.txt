@@ -1,0 +1,138 @@
+create table DEPT
+(
+deptno int(2),
+dname varchar(15),
+loc varchar(10)
+);
+insert into DEPT values
+(10,'ACCOUNTING','NEW YORK'),
+(20,'RESEARCH','DALLAS'),
+(30,'SALES','CHICAGO'),
+(40,'OPERATIONS','BOSTON');
+
+create table EMP 
+(
+empno int(4),
+ename varchar(10),
+job varchar(9),
+hiredate date,
+sal float(7,2),
+comm float(7,2),
+deptno int(2)
+);
+
+insert into EMP values 
+(7839,'KING','MANAGER','1991-11-17',5000,NULL,10),
+(7698,'BLAKE','CLERK','1981-05-01',2850,NULL,30),
+(7782,'CLARK','MANAGER','1981-06-09',2450,NULL,10),
+(7566,'JONES','CLERK','1981-04-02',2975,NULL,20),
+(7654,'MARTIN','SALESMAN','1981-09-28',1250,1400,30),
+(7499,'ALLEN','SALESMAN','1981-02-20',1600,300,30);
+
+Q3)
+select * from emp 
+where sal between 2500 and 5000;
+
+Q4)
+select ename from emp 
+order by ename desc;
+
+Q5)
+select lower(job) from emp;
+
+Q6)
+select ename,length(ename) as "Length of EName" from emp;
+
+Q7)
+select deptno,count(deptno) as "No of Employees in Department" from emp
+group by deptno;
+
+Q8)
+select dname "DNAME",ename "ENAME" from emp,dept
+where emp.deptno=dept.deptno;
+
+Q9)
+select instr(ename,'AR') "Position of AR in ENAME" from emp;
+
+Q10)
+
+select sal*0.2 as "HRA" from emp;
+
+
+
+
+=======================================================================================================================================================================
+
+Section 2
+
+Q 1.
+
+create table TEMPP
+(
+string1 varchar(20),
+string2 varchar(20),
+message varchar(20)
+);
+
+delimiter //
+create procedure PROC1(str1 varchar(20),str2 varchar(20))
+begin
+		declare x int;
+        set x=instr(str2,str1);
+        if(x=0) then
+			insert into TEMPP values (str1,str2,'Not Present');
+        else	
+			insert into TEMPP values (str1,str2,'Present');
+        end if;    
+end; //
+delimiter ;  
+
+call PROC1('DAC','CDAC');   
+call PROC1('GHAR','KHARGHAR');  
+select * from TEMPP;  
+
+
+Q 2.
+
+create table TEMPP12
+(
+side1 float,
+side2 float,
+side3 float,
+meassage varchar(25)
+);
+
+delimiter //
+create procedure demo9988(a1 float,b1 float,c1 float)
+begin
+		declare a boolean default false ;
+        set a = FUNC1(a1,b1,c1);
+        if(a=1) then
+        insert into TEMPP12 values (a1,b1,c1,'Valid Triangle');
+        else 
+		insert into TEMPP12 values (a1,b1,c1,'Invalid Triangle');
+        end if;
+end ; //
+delimiter ;
+        
+delimiter //
+create function FUNC1( a float,b float,c float)
+returns boolean
+deterministic
+begin
+		declare x boolean;
+		if(a<b+c) then
+			if(b<a+c) then
+				if(c<a+b) then 
+					return true;
+                 end if;
+            end if;
+				return false;
+         end if;
+end; //
+delimiter ;        
+  
+  call demo9988(3,4,5);
+  call demo9988(12,11,13);
+    call demo9988(100,1,500);
+  select * from tempp12;
